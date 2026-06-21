@@ -26,7 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <body className="xl:w-auto min-w-[1200px] relative font-normal min-h-screen">{children}</body>
+      <body className="xl:w-auto min-w-300 relative font-normal min-h-screen">{children}</body>
     </html>
   );
 }
