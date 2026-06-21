@@ -9,7 +9,6 @@ import Performance from '@/components/home/performance/performance';
 export default function AppPage() {
   return (
     <>
-      {/* <div>4545</div> */}
       <NavBar />
       <main id="main-content">
         <HeaderBanner />

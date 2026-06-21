@@ -13,3 +13,39 @@ li {
 body {
   background-color: var(--color-page-bg);
 }
+
+.universal-product-tip-body {
+  margin-top: 48px;
+}
+
+.universal-product-tip {
+  font-size: 14px;
+  height: 48px;
+  width: 100%;
+  left: 0;
+  top: -48px;
+  position: absolute;
+  background-color: #fff;
+}
+
+.universal-product-tip-container {
+  width: 1200px;
+  color: #000;
+  margin: 0 auto;
+  height: 48px;
+}
+
+.universal-product-tip-wrapper {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+}
+
+.close {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
