@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
     const username = body.username?.trim();
     const password = body.password;
 
+    console.log(body);
+
     if (!username || !password) {
       return NextResponse.json({ message: '请输入用户名和密码' }, { status: 400 });
     }
