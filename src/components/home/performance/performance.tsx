@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -42,6 +43,14 @@ const performanceCards = [
 ];
 
 export default function Performance() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const fallbackCard = performanceCards[0];
+
   return (
     <section className="bg-white py-24">
       <div className="mx-auto w-300 px-4">
@@ -50,54 +59,80 @@ export default function Performance() {
           <p className="mx-auto max-w-195 text-slate-600">围绕图片、代码、服务端组件与缓存策略四个关键点，持续优化首屏加载、渲染效率与用户交互体验</p>
         </div>
         <div className="relative">
-          <Swiper
-            modules={[Autoplay, Pagination]}
-            className="px-1 pb-14"
-            spaceBetween={24}
-            slidesPerView={1}
-            speed={700}
-            loop
-            grabCursor
-            autoHeight
-            autoplay={{
-              delay: 3500,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            pagination={{ clickable: true }}
-            breakpoints={{
-              768: {
-                spaceBetween: 32,
-              },
-            }}>
-            {performanceCards.map((card) => (
-              <SwiperSlide key={card.title}>
-                <article className="py-4">
-                  <div className="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-                    <div className="flex min-h-80 items-center justify-center px-4 py-6  lg:px-8 lg:py-10">
-                      <div className="relative w-full max-w-130">
-                        <Image
-                          src={card.imageSrc}
-                          alt={card.imageAlt}
-                          width={0}
-                          height={0}
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="h-auto w-full"
-                          priority={card.eyebrow.startsWith('01')}
-                        />
+          {!mounted ? (
+            <article className="px-1 py-4">
+              <div className="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+                <div className="flex min-h-80 items-center justify-center px-4 py-6 lg:px-8 lg:py-10">
+                  <div className="relative w-full max-w-130">
+                    <Image
+                      src={fallbackCard.imageSrc}
+                      alt={fallbackCard.imageAlt}
+                      width={0}
+                      height={0}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="h-auto w-full"
+                      priority
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center px-4 py-2 lg:px-6">
+                  <p className="text-sm font-semibold tracking-[0.22em] text-sky-500 uppercase">{fallbackCard.eyebrow}</p>
+                  <h3 className="mt-4 max-w-155 text-3xl font-bold leading-[1.15] text-slate-950 lg:text-[46px]">{fallbackCard.title}</h3>
+                  <p className="mt-6 max-w-195 text-[17px] leading-8 text-slate-500">{fallbackCard.description}</p>
+                  <div className="mt-8 inline-flex w-fit rounded-md bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600">{fallbackCard.highlight}</div>
+                </div>
+              </div>
+            </article>
+          ) : (
+            <Swiper
+              modules={[Autoplay, Pagination]}
+              className="px-1 pb-14"
+              spaceBetween={24}
+              slidesPerView={1}
+              speed={700}
+              loop
+              grabCursor
+              autoHeight
+              autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              pagination={{ clickable: true }}
+              breakpoints={{
+                768: {
+                  spaceBetween: 32,
+                },
+              }}>
+              {performanceCards.map((card) => (
+                <SwiperSlide key={card.title}>
+                  <article className="py-4">
+                    <div className="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+                      <div className="flex min-h-80 items-center justify-center px-4 py-6 lg:px-8 lg:py-10">
+                        <div className="relative w-full max-w-130">
+                          <Image
+                            src={card.imageSrc}
+                            alt={card.imageAlt}
+                            width={0}
+                            height={0}
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className="h-auto w-full"
+                            priority={card.eyebrow.startsWith('01')}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col justify-center px-4 py-2 lg:px-6">
+                        <p className="text-sm font-semibold tracking-[0.22em] text-sky-500 uppercase">{card.eyebrow}</p>
+                        <h3 className="mt-4 max-w-155 text-3xl font-bold leading-[1.15] text-slate-950 lg:text-[46px]">{card.title}</h3>
+                        <p className="mt-6 max-w-195 text-[17px] leading-8 text-slate-500">{card.description}</p>
+                        <div className="mt-8 inline-flex w-fit rounded-md bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600">{card.highlight}</div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center px-4 py-2 lg:px-6">
-                      <p className="text-sm font-semibold tracking-[0.22em] text-sky-500 uppercase">{card.eyebrow}</p>
-                      <h3 className="mt-4 max-w-155 text-3xl font-bold leading-[1.15] text-slate-950 lg:text-[46px]">{card.title}</h3>
-                      <p className="mt-6 max-w-195 text-[17px] leading-8 text-slate-500">{card.description}</p>
-                      <div className="mt-8 inline-flex w-fit rounded-md bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600">{card.highlight}</div>
-                    </div>
-                  </div>
-                </article>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                  </article>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
         </div>
       </div>
     </section>

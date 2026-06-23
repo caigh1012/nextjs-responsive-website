@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { useUserContext } from '@/contexts/userContext';
 
 export default function NavBar() {
   const [isFixed, setIsFixed] = useState(false);
 
   const [isShowTip, setIsShowTip] = useState(true);
+  const { user, loading, loggingOut, logout } = useUserContext();
 
   useEffect(() => {
     const top = isShowTip ? 48 : 0;
@@ -31,6 +33,14 @@ export default function NavBar() {
     setIsShowTip(false);
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch {
+      // 具体错误已在 UserContext 中记录，这里避免未处理的 Promise 异常
+    }
+  };
+
   return (
     <>
       {isShowTip ? (
@@ -39,7 +49,7 @@ export default function NavBar() {
             <div className="universal-product-tip-wrapper">
               <div>Next.js 是一个用于构建全栈 Web 应用程序的 React 框架</div>
               <Link
-                className="text-[#0070d5]"
+                className="text-brand-500"
                 href="/">
                 了解更多
               </Link>
@@ -93,18 +103,58 @@ export default function NavBar() {
             </div>
             {/* 导航栏用户容器 */}
             <div className="flex items-center">
-              <div className="flex items-center rounded-full gap-4">
-                <Link
-                  href="/login"
-                  className="flex items-center rounded-full bg-brand-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-400">
-                  <span>立即登录</span>
-                </Link>
-                <Link
-                  href="/"
-                  className={clsx('rounded-full bg-white/10 px-5 py-2 text-sm font-medium transition-all duration-300', { 'text-black': isFixed, 'text-white': !isFixed })}>
-                  <span>立即注册</span>
-                </Link>
-              </div>
+              {loading ? (
+                <div
+                  className={clsx('text-sm font-medium transition-all duration-300', {
+                    'text-black/70': isFixed,
+                    'text-white/80': !isFixed,
+                  })}>
+                  加载中...
+                </div>
+              ) : user ? (
+                <div
+                  className={clsx('flex items-center gap-2 rounded-full px-3 py-2 transition-all duration-300', {
+                    'bg-black/5 text-black': isFixed,
+                    'bg-white/10 text-white': !isFixed,
+                  })}>
+                  <span className="max-w-300 truncate text-sm font-medium">{user.nickname || user.username}</span>
+                  <span
+                    className={clsx('flex h-8 w-8 items-center justify-center rounded-full', {
+                      'bg-black/10': isFixed,
+                      'bg-white/15': !isFixed,
+                    })}>
+                    <svg
+                      className="h-4 w-4 fill-current"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true">
+                      <path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2.25c-3 0-9 1.5-9 4.5V21h18v-2.25c0-3-6-4.5-9-4.5Z" />
+                    </svg>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => void handleLogout()}
+                    disabled={loggingOut}
+                    className={clsx('cursor-pointer rounded-full px-3 py-1 text-sm font-medium transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60', {
+                      'bg-black/10 hover:bg-black/15': isFixed,
+                      'bg-white/15 hover:bg-white/20': !isFixed,
+                    })}>
+                    {loggingOut ? '退出中...' : '退出'}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center rounded-full gap-4">
+                  <Link
+                    href="/login"
+                    className="flex items-center rounded-full bg-brand-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-400">
+                    <span>立即登录</span>
+                  </Link>
+                  <Link
+                    href="/"
+                    className={clsx('rounded-full bg-white/10 px-5 py-2 text-sm font-medium transition-all duration-300', { 'text-black': isFixed, 'text-white': !isFixed })}>
+                    <span>立即注册</span>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

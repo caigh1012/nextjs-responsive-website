@@ -133,8 +133,8 @@ export default function LoginPage() {
       <div className="absolute inset-0 bg-black/18" />
 
       <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-12">
-        <div className="flex w-full max-w-[1280px] items-center justify-end">
-          <section className="w-full max-w-[420px] bg-white px-8 py-9 text-[#111111] shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
+        <div className="flex w-full max-w-7xl items-center justify-end">
+          <section className="w-full max-w-105 bg-white px-8 py-9 text-[#111111] shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
             <h1 className="text-[30px] font-semibold leading-tight text-[#1f1f1f]">登录账号</h1>
 
             <form
@@ -227,7 +227,7 @@ export default function LoginPage() {
       </div>
 
       <div className="absolute right-0 bottom-5 left-0 z-10 px-6 text-center text-[10px] text-white/75">
-        <p>2026 DJI All Rights Reserved. 仅作界面示意使用</p>
+        <p>2026 All Rights Reserved. 仅作界面示意使用</p>
       </div>
 
       <div className="absolute bottom-5 left-5 z-10 text-[10px] leading-4 text-white/80">
