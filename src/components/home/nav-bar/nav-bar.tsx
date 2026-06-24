@@ -114,8 +114,8 @@ export default function NavBar() {
               ) : user ? (
                 <div
                   className={clsx('flex items-center gap-2 rounded-full px-3 py-2 transition-all duration-300', {
-                    'bg-black/5 text-black': isFixed,
-                    'bg-white/10 text-white': !isFixed,
+                    'text-black': isFixed,
+                    'text-white': !isFixed,
                   })}>
                   <span className="max-w-300 truncate text-sm font-medium">{user.nickname || user.username}</span>
                   <span
